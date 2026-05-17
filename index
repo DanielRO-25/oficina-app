@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>OficinaFlow</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- ══ TOPBAR ══════════════════════════════ -->
+  <div class="topbar">
+    <div class="logo">
+      Oficina<span>Flow</span>
+    </div>
+
+    <div class="topbar-right">
+      <button class="btn-add"
+              onclick="abrirNovaOS()"
+              title="Nova OS">
+        +
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ PAGES ════════════════════════════════ -->
+
+  <!-- KANBAN -->
+  <div id="pg-kanban" class="page active">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="board" id="board"></div>
+  </div>
+
+  <!-- CLIENTES -->
+  <div id="pg-clientes" class="page">
+
+    <div class="page-inner">
+
+      <span class="slabel">
+        Clientes cadastrados
+      </span>
+
+      <div id="lista-clientes"></div>
+
+      <span class="slabel">
+        Novo cliente
+      </span>
+
+      <div class="fg">
+        <label>Nome *</label>
+
+        <input type="text"
+               class="fc"
+               id="nc-nome"
+               placeholder="Nome completo">
+      </div>
+
+      <div class="fg">
+        <label>Telefone</label>
+
+        <input type="tel"
+               class="fc"
+               id="nc-tel"
+               placeholder="(11) 99999-0000">
+      </div>
+
+      <div class="fg">
+        <label>E-mail</label>
+
+        <input type="email"
+               class="fc"
+               id="nc-email"
+               placeholder="email@exemplo.com">
+      </div>
+
+      <button class="btn btn-primary btn-full"
+              onclick="salvarCliente()">
+        Cadastrar cliente
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ══ NAV ════════════════════════════════ -->
+  <nav class="nav">
+
+    <button class="nav-item active"
+            data-pg="kanban"
+            onclick="irPara('kanban',this)">
+
+      <svg viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor">
+
+        <rect x="3"
+              y="3"
+              width="7"
+              height="18"
+              rx="1.5"/>
+
+        <rect x="14"
+              y="3"
+              width="7"
+              height="11"
+              rx="1.5"/>
+
+        <rect x="14"
+              y="17"
+              width="7"
+              height="4"
+              rx="1.5"/>
+      </svg>
+
+      Kanban
+    </button>
+
+    <button class="nav-item"
+            data-pg="clientes"
+            onclick="irPara('clientes',this)">
+
+      <svg viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor">
+
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+
+        <circle cx="9"
+                cy="7"
+                r="4"/>
+
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+
+      Clientes
+    </button>
+
+  </nav>
+
+  <!-- ══ MODAL NOVA OS ══════════════════════ -->
+  <div class="overlay"
+       id="ov-nova"
+       onclick="fecharSe(event,'ov-nova')">
+
+    <div class="sheet">
+
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-head">
+
+        <span class="sheet-title">
+          Nova OS
+        </span>
+
+        <button class="btn-close"
+                onclick="fechar('ov-nova')">
+          ×
+        </button>
+
+      </div>
+
+      <div class="sheet-body">
+
+        <div class="fg">
+          <label>Cliente *</label>
+
+          <select class="fc" id="nos-cliente"></select>
+        </div>
+
+        <div class="fg">
+          <label>Modelo da moto *</label>
+
+          <input type="text"
+                 class="fc"
+                 id="nos-moto"
+                 placeholder="Ex: Honda CG 160">
+        </div>
+
+        <div class="grid2">
+
+          <div class="fg">
+            <label>Placa</label>
+
+            <input type="text"
+                   class="fc"
+                   id="nos-placa"
+                   placeholder="ABC-1234"
+                   style="text-transform:uppercase">
+          </div>
+
+          <div class="fg">
+            <label>Ano</label>
+
+            <input type="text"
+                   class="fc"
+                   id="nos-ano"
+                   placeholder="2022">
+          </div>
+
+        </div>
+
+        <div class="fg">
+
+          <label>Problema relatado *</label>
+
+          <textarea class="fc"
+                    id="nos-desc"
+                    placeholder="O que o cliente está relatando..."></textarea>
+
+        </div>
+
+        <div class="grid2">
+
+          <div class="fg">
+
+            <label>Prioridade</label>
+
+            <select class="fc" id="nos-prio">
+              <option value="normal">Normal</option>
+              <option value="urgente">Urgente</option>
+              <option value="vip">VIP</option>
+            </select>
+
+          </div>
+
+          <div class="fg">
+            <label>Prazo</label>
+
+            <input type="date"
+                   class="fc"
+                   id="nos-prazo">
+          </div>
+
+        </div>
+
+        <div class="fg">
+
+          <label>Mecânico</label>
+
+          <select class="fc" id="nos-mec"></select>
+
+        </div>
+
+        <button class="btn btn-primary btn-full"
+                style="margin-top:4px"
+                onclick="criarOS()">
+
+          Abrir OS
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL DETALHE OS ═══════════════════ -->
+  <div class="overlay"
+       id="ov-det"
+       onclick="fecharSe(event,'ov-det')">
+
+    <div class="sheet"
+         id="sheet-det">
+
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-head">
+
+        <span class="sheet-title"
+              id="det-titulo">
+          OS
+        </span>
+
+        <button class="btn-close"
+                onclick="fechar('ov-det')">
+          ×
+        </button>
+
+      </div>
+
+      <div class="det-header">
+
+        <div class="det-num"
+             id="det-num"></div>
+
+        <div class="det-moto"
+             id="det-moto"></div>
+
+        <div class="det-cliente"
+             id="det-cliente"></div>
+
+        <div class="det-pills"
+             id="det-pills"></div>
+
+      </div>
+
+      <div class="sec-label">
+        Status
+      </div>
+
+      <div class="status-grid"
+           id="det-status-grid"></div>
+
+      <div class="sec-label">
+        Mecânico responsável
+      </div>
+
+      <div style="padding:6px 20px">
+        <select class="fc"
+                id="det-mec"
+                onchange="salvarMec()"></select>
+      </div>
+
+      <div class="sec-label">
+        Observações técnicas
+      </div>
+
+      <div class="obs-wrap">
+
+        <textarea class="obs-area"
+                  id="det-obs"
+                  placeholder="Diagnóstico, peças trocadas, notas técnicas..."></textarea>
+
+        <button class="btn btn-sec btn-sm"
+                style="margin-top:8px"
+                onclick="salvarObs()">
+
+          Salvar observações
+        </button>
+
+      </div>
+
+      <div class="sec-label"
+           id="hist-label"
+           style="display:none">
+
+        Histórico
+      </div>
+
+      <div class="hist-list"
+           id="det-hist"></div>
+
+      <div style="height:8px"></div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+  <!-- JS -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
